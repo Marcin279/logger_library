@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  logger_library:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./logger_library:/logger_library

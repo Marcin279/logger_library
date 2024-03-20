@@ -9,7 +9,12 @@ RUN apt-get update && \
     wget \
     unzip \
     libboost-all-dev \
-    git
+    git \
+    valgrind \
+    vim \
+    gdb \
+    rsync \
+    tar
 
 # Install the newest GCC compiler
 RUN apt-get install -y software-properties-common && \
@@ -34,14 +39,7 @@ RUN mkdir /gtest && \
 ENV GTEST_ROOT=/gtest/googletest-release-1.11.0
 
 # Copy your C++ project files
-COPY . /logger_app
+COPY . /logger_library
 
 # Set the working directory
-WORKDIR /logger_app
-
-# Compile and build your C++ project
-RUN cmake . && \
-    make
-
-# Run your application or tests
-CMD ["./logger_app"]
+WORKDIR /logger_library
