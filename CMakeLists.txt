@@ -1,65 +1,35 @@
 cmake_minimum_required(VERSION 3.22)  # CMake version check
-project(logger_app)
+project(logger_library)
+
 set(CMAKE_CXX_STANDARD 20)            # Enable c++20 standard
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Find Boost
-#find_package(Boost REQUIRED)
+# Find boost lib
+set(Boost_COMPONENTS system filesystem)
+find_package(Boost REQUIRED COMPONENTS ${Boost_COMPONENTS})
+include_directories(${Boost_INCLUDE_DIRS})
 
-# Include Google Test Framework
-#add_subdirectory(lib/googletest)
+# Add includes
+include_directories(inc
+        ../gtest/googletest-release-1.11.0/googlemock/include
+        ../gtest/googletest-release-1.11.0/googletest/include)
 
-#include_directories(
-#        googletest/googlemock/include
-#        googletest/googletest/include
-#)
-
-# Add main.cpp file of the project root directory as a source file
 set(SOURCE_FILES main.cpp)
 
+set(TEST_SOURCES
+        test/Logger_test.cpp
+)
+
+# Add GoogleTest as a subdirectory
+add_subdirectory(../gtest/googletest-release-1.11.0 gtest)
+# Link GoogleTest libraries
+link_libraries(gtest)
+
 # Add executable target with source files listed in SOURCE_FILES variable
-add_executable(logger_app ${SOURCE_FILES})
+add_executable(logger_library_run ${SOURCE_FILES} main.cpp)
 
+# Add executable target for tests
+add_executable(logger_library_test ${SOURCE_FILES} ${TEST_SOURCES})
 
-
-
-## =================================================================================================================
-#cmake_minimum_required(VERSION 3.22)
-#project(matlab_2_clion)
-#
-#set(CMAKE_CXX_STANDARD 20)
-#
-## Miejsca w których kompilator ma szukać plików nagłówkowych
-#include_directories(include
-#        googletest/googlemock/include
-#        googletest/googletest/include)
-#
-#
-## Wszystkie pliki projektu z rozszerzeniem .cpp
-#set(SOURCE_FILES
-#        src/calculator.cpp
-#        src/md5.cpp
-#)
-#
-## Dodawanie poszczególnych testów
-#set(TEST_SOURCES
-#        test/
-#        test/main_test.cpp
-#        test/calculator_test.cpp
-#        test/md5_test.cpp
-#        test/md5_fixture_test.cpp
-#        test/md5_fixture2_test.cpp
-#        include/threads.hpp
-#)
-#
-##dodaje bibliotekę Google Test, kompiluje ją z użyciem CMakeLists.txt z folderu googletest-master
-#add_subdirectory(googletest)
-#link_libraries(gmock)
-#
-##Tworzy konfigurację o nazwie konfig_run (nazwę możemy dowolnie zmienić)
-## do której dołącza plik main.cpp z funkcją main()
-#add_executable(config_run ${SOURCE_FILES} main.cpp
-#        include/threads.hpp)
-#
-##Tworzy konfigurację o nazwie konfig_test służącą do uruchamiania testów jednostkowych
-#add_executable(config_test ${SOURCE_FILES} ${TEST_SOURCES}
-#        include/threads.hpp)
+# Link GoogleTest libraries to the test executable
+target_link_libraries(logger_library_test gtest)
