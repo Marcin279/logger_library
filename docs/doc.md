@@ -1,9 +1,10 @@
 # Logger documentation
 
-@startuml Sequence Diagram
-LoggerApp -> Client: Authentication Request
-Client --> LoggerApp: Authentication Response
+## Class Diagram
 
-LoggerApp -> Client: Another authentication Request
-LoggerApp <-- Client: Another authentication Response
-@enduml
+![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/Marcin279/logger_library/master/docs/diagrams/main_class_diagram.puml?token=GHSAT0AAAAAACO7SATQBLC66YVNGNBS5ND4ZQAXWYA)
+
+## Sequence Diagram
+
+![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/Marcin279/logger_library/master/docs/diagrams/system_sequence_diagram.puml?token=GHSAT0AAAAAACO7SATR4INIUUZLKZ6ZHS4SZQAXXWQ)
+
