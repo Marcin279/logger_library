@@ -1,7 +1,56 @@
-@startuml Sequence Diagram
-LoggerApp -> Client: Authentication Request
-Client --> LoggerApp: Authentication Response
+'https://chat.openai.com/share/79a84b99-8194-4368-b0bf-84173f9cd903
 
-LoggerApp -> Client: Another authentication Request
-LoggerApp <-- Client: Another authentication Response
+@startuml
+
+interface LoggerInterface {
+    +log(message: String, logLevel: LogLevel)
+}
+
+enum LogLevel {
+    DEBUG
+    INFO
+    WARNING
+    ERROR
+    FATAL
+    TRACE
+}
+
+interface LogFilter {
+    +applyFilter(message: String): boolean
+}
+
+class FileLogger {
+    -logFilter: LogFilter
+    -logRotator: LogRotator
+
+    +setLogFilter(logFilter: LogFilter)
+    +setLogRotator(logRotator: LogRotator)
+    +log(message: String, logLevel: LogLevel)
+}
+
+class LogDestination {
+    - logDestination: string
+
+    + setLogDestination: string
+    + getLogDestination: string
+}
+
+class LogRotator {
+    -logFilePath: String
+    -maxFileSize: int
+    -maxBackupFiles: int
+
+    +LogRotator(logFilePath: String, maxFileSize: int, maxBackupFiles: int)
+    +rotateLogs()
+}
+
+LoggerInterface <|.. FileLogger
+LoggerInterface <|.. ConsoleLogger
+LoggerInterface <|.. DatabaseLogger
+LoggerInterface <|.. LogRotator
+
+FileLogger -right-> LogFilter
+FileLogger -right-> LogRotator
+
 @enduml
+

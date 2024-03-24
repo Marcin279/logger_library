@@ -1,0 +1,101 @@
+@startuml
+
+interface LoggerFactory {
+    {abstract} +getLogger(): LoggerInterface
+}
+
+class FileLoggerFactory {
+    +getLogger(): LoggerInterface
+}
+
+class RemoteLoggerFactory {
+    +getLogger(): LoggerInterface
+}
+
+abstract class LogBaseLevelDecorator {
+    -logLevel: LogLevel
+    +LogBaseLevelDecorator(logLevel: LogLevel)
+    +getDescription(): String
+}
+
+class DebugLevel {
+    +getDescription(): String
+}
+
+class InfoLevel {
+    +getDescription(): String
+}
+
+class WarningLevel {
+    +getDescription(): String
+}
+
+class ErrorLevel {
+    +getDescription(): String
+}
+
+class FatalLevel {
+    +getDescription(): String
+}
+
+class TraceLevel {
+    +getDescription(): String
+}
+
+interface LoggerInterface {
+    {abstract} +log(logLevel: LogLevel, message: String)
+    {abstract} +setFileLogging(enable: boolean)
+    {abstract} +setRemoteLogging(enable: boolean, serverURL: String)
+}
+
+enum LogLevel {
+    DEBUG
+    INFO
+    WARNING
+    ERROR
+    FATAL
+    TRACE
+}
+
+class Logger {
+    -logger: LoggerInterface
+    +Logger(factory: LoggerFactory)
+    +setFileLogging(enable: boolean)
+    +setRemoteLogging(enable: boolean, serverURL: String)
+    +log(message: String, logLevel: LogLevel)
+}
+
+class FileLogger {
+    +log(message: String, logLevel: LogLevel)
+    +setFileLogging(enable: boolean)
+    +setRemoteLogging(enable: boolean, serverURL: String)
+}
+
+class RemoteLogger {
+    +log(message: String, logLevel: LogLevel)
+    +setFileLogging(enable: boolean)
+    +setRemoteLogging(enable: boolean, serverURL: String)
+}
+
+class LogRotator {
+    +rotateLogs()
+}
+
+LoggerInterface <|.. Logger
+LoggerFactory <|.. FileLoggerFactory
+LoggerFactory <|.. RemoteLoggerFactory
+Logger o-- LoggerFactory
+Logger o-- LogLevel
+FileLoggerFactory ..> FileLogger
+RemoteLoggerFactory ..> RemoteLogger
+Logger o-- LogBaseLevelDecorator
+LogBaseLevelDecorator <|.. DebugLevel
+LogBaseLevelDecorator <|.. InfoLevel
+LogBaseLevelDecorator <|.. WarningLevel
+LogBaseLevelDecorator <|.. ErrorLevel
+LogBaseLevelDecorator <|.. FatalLevel
+LogBaseLevelDecorator <|.. TraceLevel
+
+FileLogger o-- LogRotator
+
+@enduml
