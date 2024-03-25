@@ -1,11 +1,7 @@
 #include <iostream>
-#include <sys/utsname.h>
+#include <cstdlib>
 
 int main() {
-    utsname u{};
-    if (uname(&u) != 0) {
-        return 1;
-    }
-    std::cout << "Docker container running correctly: " << u.nodename << std::endl;
-    return 0;
+    std::cout << "Done" << std::endl;
+    return EXIT_SUCCESS;
 }

@@ -1,3 +1,5 @@
-//
-// Created by marci on 20.03.2024.
-//
+#include "gtest/gtest.h"
+
+TEST(TestConf, test1) {
+    EXPECT_EQ(1, 1);
+}

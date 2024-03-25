@@ -14,22 +14,26 @@ include_directories(inc
         ../gtest/googletest-release-1.11.0/googlemock/include
         ../gtest/googletest-release-1.11.0/googletest/include)
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES src/Logger.cpp
+                 src/LoggerInterface.cpp
+)
 
 set(TEST_SOURCES
+        test/main_test.cpp
         test/Logger_test.cpp
 )
 
 # Add GoogleTest as a subdirectory
 add_subdirectory(../gtest/googletest-release-1.11.0 gtest)
 # Link GoogleTest libraries
-link_libraries(gtest)
+#link_libraries(gtest)
+link_libraries(gmock)
 
 # Add executable target with source files listed in SOURCE_FILES variable
 add_executable(logger_library_run ${SOURCE_FILES} main.cpp)
 
 # Add executable target for tests
 add_executable(logger_library_test ${SOURCE_FILES} ${TEST_SOURCES})
-
-# Link GoogleTest libraries to the test executable
+#
+## Link GoogleTest libraries to the test executable
 target_link_libraries(logger_library_test gtest)

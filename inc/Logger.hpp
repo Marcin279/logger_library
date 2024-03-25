@@ -5,4 +5,6 @@
 #ifndef LOGGER_APP_LOGGER_HPP
 #define LOGGER_APP_LOGGER_HPP
 
+
+
 #endif //LOGGER_APP_LOGGER_HPP
