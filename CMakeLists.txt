@@ -21,6 +21,7 @@ set(SOURCE_FILES src/Logger.cpp
 set(TEST_SOURCES
         test/main_test.cpp
         test/Logger_test.cpp
+        test/LogLevel_test.cpp
 )
 
 # Add GoogleTest as a subdirectory
