@@ -5,9 +5,9 @@ set(CMAKE_CXX_STANDARD 20)            # Enable c++20 standard
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Find boost lib
-set(Boost_COMPONENTS system filesystem)
-find_package(Boost REQUIRED COMPONENTS ${Boost_COMPONENTS})
-include_directories(${Boost_INCLUDE_DIRS})
+#set(Boost_COMPONENTS system filesystem)
+#find_package(Boost REQUIRED COMPONENTS ${Boost_COMPONENTS})
+#include_directories(${Boost_INCLUDE_DIRS})
 
 # Add includes
 include_directories(inc
