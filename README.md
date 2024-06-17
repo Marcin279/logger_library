@@ -13,3 +13,6 @@
 
 4. Stopping container: </br>
 `docker stop logger_library_container`
+
+5. Enter to running container: </br>
+`docker exec -it <container_name/container_id> /bin/bash `
