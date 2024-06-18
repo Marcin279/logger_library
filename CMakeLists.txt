@@ -9,10 +9,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 #find_package(Boost REQUIRED COMPONENTS ${Boost_COMPONENTS})
 #include_directories(${Boost_INCLUDE_DIRS})
 
+# Enable testing
+enable_testing()
+
+# Add Google test
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+
 # Add includes
-include_directories(inc
-        ../gtest/googletest-release-1.11.0/googlemock/include
-        ../gtest/googletest-release-1.11.0/googletest/include)
+include_directories(inc)
 
 set(SOURCE_FILES src/Logger.cpp
                  src/LoggerInterface.cpp
