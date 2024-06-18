@@ -42,4 +42,6 @@ add_executable(logger_library_run ${SOURCE_FILES} main.cpp)
 add_executable(logger_library_test ${SOURCE_FILES} ${TEST_SOURCES})
 #
 ## Link GoogleTest libraries to the test executable
-target_link_libraries(logger_library_test gtest)
+target_link_libraries(logger_library_test ${GTEST_LIBRARIES} pthread)
+
+add_test(NAME logger_library_test, COMMAND logger_library_test)
