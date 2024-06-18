@@ -30,9 +30,9 @@ set(TEST_SOURCES
 )
 
 # Add GoogleTest as a subdirectory
-add_subdirectory(../gtest/googletest-release-1.11.0 gtest)
+#add_subdirectory(../gtest/googletest-release-1.11.0 gtest)
 # Link GoogleTest libraries
-#link_libraries(gtest)
+link_libraries(gtest)
 link_libraries(gmock)
 
 # Add executable target with source files listed in SOURCE_FILES variable
