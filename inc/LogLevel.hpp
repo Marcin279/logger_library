@@ -1,5 +1,8 @@
-#ifndef LOGGER_LIBRARY_LOGLEVEL_HPP
-#define LOGGER_LIBRARY_LOGLEVEL_HPP
+#pragma once
+
+#include <string>
+
+// Dodaj templete do generorowania stringa z opisem log levelu
 
 enum class LogLevel {
     DEBUG,
@@ -7,7 +10,14 @@ enum class LogLevel {
     WARNING,
     ERROR,
     FATAL,
-    TRACE
+    TRACE,
+    UNKNOWN = 99
 };
 
-#endif //LOGGER_LIBRARY_LOGLEVEL_HPP
+std::string logLevelToString(LogLevel level);
+
+template<LogLevel level>
+std::string generateLogLevelString() {
+    return logLevelToString(level);
+}
+
