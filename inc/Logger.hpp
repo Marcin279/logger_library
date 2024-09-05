@@ -1,10 +1,6 @@
-//
-// Created by marci on 20.03.2024.
-//
+#pragma once
 
-#ifndef LOGGER_APP_LOGGER_HPP
-#define LOGGER_APP_LOGGER_HPP
+#include <LogLevel.hpp>
 
-
-
-#endif //LOGGER_APP_LOGGER_HPP
+class Logger {
+};

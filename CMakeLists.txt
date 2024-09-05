@@ -20,7 +20,8 @@ include_directories(${GTEST_INCLUDE_DIRS})
 include_directories(inc)
 
 set(SOURCE_FILES src/Logger.cpp
-                 src/LoggerInterface.cpp
+        src/LogFormatter.cpp
+        src/LogLevel.cpp
 )
 
 set(TEST_SOURCES

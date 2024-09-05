@@ -1,56 +1,45 @@
-'https://chat.openai.com/share/79a84b99-8194-4368-b0bf-84173f9cd903
-
 @startuml
-
-interface LoggerInterface {
-    +log(message: String, logLevel: LogLevel)
+class Logger {
+  - level: LogLevel
+  - formatter: LogFormatter
+  - destinationManager: LogDestinationManager
+  + log(level: LogLevel, message: string): void
 }
 
-enum LogLevel {
-    DEBUG
-    INFO
-    WARNING
-    ERROR
-    FATAL
-    TRACE
+class LogFormatter {
+  + format(level: LogLevel, moduleName: string, message: string): string
 }
 
-interface LogFilter {
-    +applyFilter(message: String): boolean
+class LogDestinationManager {
+  - fileLogger: FileLogger
+  - networkLogger: NetworkLogger
+  + logToFile(log: string): void
+  + logToNetwork(log: string): void
+  + setDestination(destination: LogDestination): void
 }
 
 class FileLogger {
-    -logFilter: LogFilter
-    -logRotator: LogRotator
-
-    +setLogFilter(logFilter: LogFilter)
-    +setLogRotator(logRotator: LogRotator)
-    +log(message: String, logLevel: LogLevel)
+  - fileName: string
+  - maxSize: int
+  + log(log: string): void
+  + rotateFiles(): void
 }
 
-class LogDestination {
-    - logDestination: string
-
-    + setLogDestination: string
-    + getLogDestination: string
+class NetworkLogger {
+  - endpoint: string
+  - apiClient: RESTAPIClient
+  + log(log: string): void
 }
 
-class LogRotator {
-    -logFilePath: String
-    -maxFileSize: int
-    -maxBackupFiles: int
-
-    +LogRotator(logFilePath: String, maxFileSize: int, maxBackupFiles: int)
-    +rotateLogs()
+class RESTAPIClient {
+  - endpoint: string
+  + post(log: string): void
 }
 
-LoggerInterface <|.. FileLogger
-LoggerInterface <|.. ConsoleLogger
-LoggerInterface <|.. DatabaseLogger
-LoggerInterface <|.. LogRotator
-
-FileLogger -right-> LogFilter
-FileLogger -right-> LogRotator
+Logger --> LogFormatter
+Logger --> LogDestinationManager
+LogDestinationManager --> FileLogger
+LogDestinationManager --> NetworkLogger
+NetworkLogger --> RESTAPIClient
 
 @enduml
-
