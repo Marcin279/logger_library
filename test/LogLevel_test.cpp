@@ -22,3 +22,14 @@ TEST(LogLevelTest, LogLevelToStringTest) {
     EXPECT_EQ(logLevelToString(LogLevel::TRACE), "TRACE");
     EXPECT_EQ(logLevelToString(LogLevel::UNKNOWN), "UNKNOWN");
 }
+
+TEST(LogLevelTest, GenerateLogLevelFromStringTest) {
+    // Check if the values are what we expect
+    EXPECT_EQ(generateLogLevelString<LogLevel::DEBUG>(), "DEBUG");
+    EXPECT_EQ(generateLogLevelString<LogLevel::INFO>(), "INFO");
+    EXPECT_EQ(generateLogLevelString<LogLevel::WARNING>(), "WARNING");
+    EXPECT_EQ(generateLogLevelString<LogLevel::ERROR>(), "ERROR");
+    EXPECT_EQ(generateLogLevelString<LogLevel::FATAL>(), "FATAL");
+    EXPECT_EQ(generateLogLevelString<LogLevel::TRACE>(), "TRACE");
+    EXPECT_EQ(generateLogLevelString<LogLevel::UNKNOWN>(), "UNKNOWN");
+}
