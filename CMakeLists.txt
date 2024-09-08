@@ -22,12 +22,18 @@ include_directories(inc)
 set(SOURCE_FILES src/Logger.cpp
         src/LogFormatter.cpp
         src/LogLevel.cpp
+        src/LogDestinationManager.cpp
+        src/FileLogger.cpp
+        src/NetworkLogger.cpp
+        src/RESTAPIClient.cpp
 )
 
 set(TEST_SOURCES
         test/main_test.cpp
         test/Logger_test.cpp
         test/LogLevel_test.cpp
+        test/LogFormatter_test.cpp
+        test/FileLogger_test.cpp
 )
 
 # Add GoogleTest as a subdirectory

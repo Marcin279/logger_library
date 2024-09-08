@@ -2,8 +2,6 @@
 
 #include <string>
 
-// Dodaj templete do generorowania stringa z opisem log levelu
-
 enum class LogLevel {
     DEBUG,
     INFO,

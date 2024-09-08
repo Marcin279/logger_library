@@ -1,101 +1,49 @@
-           @startuml
-
-interface LoggerFactory {
-    {abstract} +getLogger(): LoggerInterface
-}
-
-class FileLoggerFactory {
-    +getLogger(): LoggerInterface
-}
-
-class RemoteLoggerFactory {
-    +getLogger(): LoggerInterface
-}
-
-abstract class LogBaseLevelDecorator {
-    -logLevel: LogLevel
-    +LogBaseLevelDecorator(logLevel: LogLevel)
-    +getDescription(): String
-}
-
-class DebugLevel {
-    +getDescription(): String
-}
-
-class InfoLevel {
-    +getDescription(): String
-}
-
-class WarningLevel {
-    +getDescription(): String
-}
-
-class ErrorLevel {
-    +getDescription(): String
-}
-
-class FatalLevel {
-    +getDescription(): String
-}
-
-class TraceLevel {
-    +getDescription(): String
-}
-
-interface LoggerInterface {
-    {abstract} +log(logLevel: LogLevel, message: String)
-    {abstract} +setFileLogging(enable: boolean)
-    {abstract} +setRemoteLogging(enable: boolean, serverURL: String)
-}
-
-enum LogLevel {
-    DEBUG
-    INFO
-    WARNING
-    ERROR
-    FATAL
-    TRACE
-}
-
+@startuml
 class Logger {
-    -logger: LoggerInterface
-    +Logger(factory: LoggerFactory)
-    +setFileLogging(enable: boolean)
-    +setRemoteLogging(enable: boolean, serverURL: String)
-    +log(message: String, logLevel: LogLevel)
+  - level: LogLevel
+  - formatter: LogFormatter
+  - destinationManager: LogDestinationManager
+  + log(level: LogLevel, message: string): void
+}
+
+class LogFormatter {
+  + format(level: LogLevel, moduleName: string, message: string): string
+}
+
+interface LogDestination {
+  + log(log: string): void
+}
+
+class LogDestinationManager {
+  - destinations: List<LogDestination>
+  + logToFile(log: string): void
+  + logToNetwork(log: string): void
+  + addDestination(destination: LogDestination): void
+  + logToAllDestinations(log: string): void
 }
 
 class FileLogger {
-    +log(message: String, logLevel: LogLevel)
-    +setFileLogging(enable: boolean)
-    +setRemoteLogging(enable: boolean, serverURL: String)
+  - fileName: string
+  - maxSize: int
+  + log(log: string): void
+  + rotateFiles(): void
 }
 
-class RemoteLogger {
-    +log(message: String, logLevel: LogLevel)
-    +setFileLogging(enable: boolean)
-    +setRemoteLogging(enable: boolean, serverURL: String)
+class NetworkLogger {
+  - endpoint: string
+  - apiClient: RESTAPIClient
+  + log(log: string): void
 }
 
-class LogRotator {
-    +rotateLogs()
+class RESTAPIClient {
+  - endpoint: string
+  + post(log: string): void
 }
 
-LoggerInterface <|.. Logger
-LoggerFactory <|.. FileLoggerFactory
-LoggerFactory <|.. RemoteLoggerFactory
-Logger o-- LoggerFactory
-Logger o-- LogLevel
-FileLoggerFactory ..> FileLogger
-RemoteLoggerFactory ..> RemoteLogger
-Logger o-- LogBaseLevelDecorator
-LogBaseLevelDecorator <|.. DebugLevel
-LogBaseLevelDecorator <|.. InfoLevel
-LogBaseLevelDecorator <|.. WarningLevel
-LogBaseLevelDecorator <|.. ErrorLevel
-LogBaseLevelDecorator <|.. FatalLevel
-LogBaseLevelDecorator <|.. TraceLevel
-
-FileLogger o-- LogRotator
-
+Logger --> LogFormatter
+Logger --> LogDestinationManager
+LogDestinationManager --> LogDestination
+LogDestination <|-- FileLogger
+LogDestination <|-- NetworkLogger
+NetworkLogger --> RESTAPIClient
 @enduml

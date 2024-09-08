@@ -10,6 +10,10 @@ class LogFormatter {
   + format(level: LogLevel, moduleName: string, message: string): string
 }
 
+class LogDestination {
+  + log(log: string): void
+}
+
 class LogDestinationManager {
   - fileLogger: FileLogger
   - networkLogger: NetworkLogger
@@ -37,7 +41,8 @@ class RESTAPIClient {
 }
 
 Logger --> LogFormatter
-Logger --> LogDestinationManager
+Logger --> LogDestination
+LogDestination --> LogDestinationManager
 LogDestinationManager --> FileLogger
 LogDestinationManager --> NetworkLogger
 NetworkLogger --> RESTAPIClient
