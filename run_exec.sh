@@ -1,5 +1,5 @@
 # Run CMake
-cmake ..
+cmake .
 
 # Run Makefile
 make
