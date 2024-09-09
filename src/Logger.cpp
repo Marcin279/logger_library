@@ -1,31 +1,27 @@
 #include "Logger.hpp"
 
 
-Logger::Logger(LogLevel level,
-               LogDestinationOption destinationOption,
-               const std::string& logFile,
-               const std::string& serverUrl) : level(level) {
+Logger::Logger(const std::string& logFile,
+               const std::string& serverUrl,
+               LogDestinationOption destinationOption)
+    : logFile(logFile), serverUrl(serverUrl), destinationOption(destinationOption) {
 
     formatter = LogFormatter();
     destinationManager = LogDestinationManager();
 
-    if (destinationOption == LogDestinationOption::FILE || destinationOption == LogDestinationOption::BOTH) {
-        std::shared_ptr<LogDestination> fileLogger = std::make_shared<FileLogger>(logFile);
+    if (this->destinationOption == LogDestinationOption::FILE || this->destinationOption == LogDestinationOption::BOTH) {
+        std::shared_ptr<LogDestination> fileLogger = std::make_shared<FileLogger>(this->logFile);
         destinationManager.addDestination(fileLogger, DestinationType::FILE);
     }
 
-    if (destinationOption == LogDestinationOption::NETWORK || destinationOption == LogDestinationOption::BOTH) {
-        std::shared_ptr<LogDestination> networkLogger = std::make_shared<NetworkLogger>(serverUrl);
+    if (this->destinationOption == LogDestinationOption::NETWORK || this->destinationOption == LogDestinationOption::BOTH) {
+        std::shared_ptr<LogDestination> networkLogger = std::make_shared<NetworkLogger>(this->serverUrl);
         destinationManager.addDestination(networkLogger, DestinationType::NETWORK);
     }
 }
 
 
 void Logger::log(LogLevel logLevel, const std::string& message) {
-    if (static_cast<int>(logLevel) < static_cast<int>(level)) {
-        return;
-    }
-
     std::string formattedMessage = formatter.format(logLevel, message);
     destinationManager.logToAllDestinations(logLevel, formattedMessage);
 }

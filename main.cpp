@@ -3,36 +3,33 @@
 
 #include <Logger.hpp>
 #include "LogLevel.hpp"
-
+#include "Warehouse.hpp"
 
 int main() {
     std::cout << "Start" << std::endl;
 
-/*
-    Logger logger(LogLevel::INFO, LogDestinationOption::FILE, "logs.txt", "http://log_server:8090");
-
-    logger.log(LogLevel::INFO, "This is a file-only informational message.");
-    logger.log(LogLevel::ERROR, "This is a file-only error message.");
-
-    std::cout << "Done" << std::endl;
-*/
-
-    Logger logger0(LogLevel::INFO, LogDestinationOption::NETWORK, "logs.txt", "http://log_server:8090");
-
-    logger0.log(LogLevel::INFO, "This is a Network-only informational message.");
-    logger0.log(LogLevel::ERROR, "This is a Network-only error message.");
-
-    std::cout << "Done" << std::endl;
-
-
-    Logger logger(LogLevel::INFO, LogDestinationOption::BOTH, "logs.txt", "http://log_server:8090");
+    // Tworzenie i konfiguracja loggera
+    Logger logger("warehouse_logs.txt", "http://log_server:8090", LogDestinationOption::BOTH);
     logger.setLogTimeFormat("%d-%m-%Y %H:%M:%S");
-    logger.log(LogLevel::INFO, "This is a Network and File informational message.");
-    logger.log(LogLevel::ERROR, "This is a Network and File error message.");
+
+    Warehouse warehouse(logger);
+
+    warehouse.addCategory("Electronics");
+    warehouse.addCategory("Books");
+    warehouse.addProduct("Electronics", "Smartphone", "A smartphone with 128GB storage");
+    warehouse.addProduct("Electronics", "Laptop", "A high-performance laptop");
+    warehouse.addProduct("Books", "C++ Programming", "A comprehensive guide to C++ programming");
+
+    warehouse.listCategory("Electronics");
+    warehouse.listCategory("Books");
+
+    warehouse.removeProduct("Electronics", "Smartphone");
+
+    warehouse.listCategory("Electronics");
+
+    warehouse.removeCategory("Books");
 
     std::cout << "Done" << std::endl;
-
-
 
     return EXIT_SUCCESS;
 }
