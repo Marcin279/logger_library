@@ -5,5 +5,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    depends_on:
+      - log_server
     volumes:
       - ./logger_library:/logger_library
+    networks:
+      - log_network
+
+  log_server:
+    build:
+      context: ./log_server
+    ports:
+      - "8080:8080"
+    networks:
+      - log_network
+
+networks:
+  log_network:
+    driver: bridge
