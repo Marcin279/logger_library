@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - TZ=Europe/Warsaw
     depends_on:
       - log_server
     networks:
