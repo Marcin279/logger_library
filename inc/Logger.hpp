@@ -18,9 +18,9 @@ enum class LogDestinationOption {
 class Logger {
 public:
 
-    Logger(LogDestinationOption destinationOption = LogDestinationOption::BOTH,
-           const std::string& logFile = "logs.txt",
-           const std::string& serverUrl = "http://log_server:8090");
+    Logger(const std::string& logFile,
+           const std::string& serverUrl,
+           LogDestinationOption destinationOption = LogDestinationOption::BOTH);
 
 	void log(LogLevel logLevel, const std::string& message);
     void setLogTimeFormat(const std::string& timeFormat);
@@ -30,6 +30,7 @@ public:
 private:
     std::string serverUrl;
     std::string logFile;
+    LogDestinationOption destinationOption;
     LogFormatter formatter;
     LogDestinationManager destinationManager;
 };

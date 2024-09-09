@@ -23,7 +23,7 @@ TEST(FileLoggerTest, LogToFile) {
     std::string line;
     std::getline(logFile, line);
 
-    std::string expectedMessage = LogFormatter::format(LogLevel::INFO, "This is a test log message.");
+    std::string expectedMessage = "This is a test log message.";
 
     if (!expectedMessage.empty() && expectedMessage.back() == '\n') {
         expectedMessage.pop_back();
@@ -40,7 +40,7 @@ TEST(FileLoggerTest, LogFileRotation) {
 
     FileLogger fileLogger(testFile, 1024);
 
-    // Usuwanie pliku i jego backupu, jeśli istnieją
+    // Usuwanie pliku i jego backupu jeśli istnieją
     if (fs::exists(testFile)) {
         fs::remove(testFile);
     }
@@ -48,12 +48,12 @@ TEST(FileLoggerTest, LogFileRotation) {
         fs::remove(testFile + ".1");
     }
 
-    // Wypełnianie pliku, aby osiągnąć maksymalny rozmiar
+    // Wypełnianie pliku aby osiągnąć maksymalny rozmiar
     for (int i = 0; i < 100; ++i) {
         fileLogger.log(LogLevel::INFO, "Filling up the log file.");
     }
 
-    // Sprawdzanie, czy plik został zrotowany
+    // Sprawdzanie czy plik został zrotowany
     EXPECT_TRUE(fs::exists(testFile + ".1"));
 
     EXPECT_TRUE(fs::exists(testFile));

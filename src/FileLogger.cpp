@@ -12,8 +12,7 @@ void FileLogger::log(LogLevel logLevel, const std::string& message)  {
         return;
     }
 
-    std::string formattedMessage = LogFormatter::format(logLevel, message);
-    logFile << formattedMessage << std::endl;
+    logFile << message << std::endl;
 
     logFile.close();
     if (fs::file_size(filename) > maxSize) {
