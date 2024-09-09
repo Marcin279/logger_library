@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   logger_library:
     build:
@@ -7,16 +5,15 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - log_server
-    volumes:
-      - ./logger_library:/logger_library
     networks:
       - log_network
 
   log_server:
     build:
       context: ./log_server
+      dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8090:8090"
     networks:
       - log_network
 

@@ -44,3 +44,5 @@ COPY . /logger_library
 
 # Set the working directory
 WORKDIR /logger_library
+
+CMD ["tail", "-f", "/dev/null"]
