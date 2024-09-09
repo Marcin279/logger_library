@@ -29,7 +29,7 @@ set(SOURCE_FILES src/Logger.cpp
         src/FileLogger.cpp
         src/NetworkLogger.cpp
         src/RESTAPIClient.cpp
-        examples/src/Warehouse.cpp
+        examples/src/warehouse.cpp
 )
 
 set(TEST_SOURCES

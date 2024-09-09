@@ -2,10 +2,29 @@
 
 ## Building environment
 
+### Auto build using docker-compose
+
+1. Build image: </br>
+`docker-compose build`
+`docker-compose up`
+
+2. Enter to running container: </br>
+- `docker ps`
+a. Logger library: </br>
+`docker exec -it logger_library-logger_library-1 /bin/bash`
+
+b. Python server: </br>
+`docker exec -it logger_library-log_server /bin/bash`
+
+
+1. Rebuild container after changes in docker-compose file: </br>
+`docker-compose up --build`
+
+   
 ### Create Network for connection between logger_library and python server
 
 1. Create network: </br>
-   `docker network create log_network`
+`docker network create log_network`
 
 ### Build logger_library_image
 1. Build image: </br>
