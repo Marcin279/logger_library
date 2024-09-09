@@ -1,13 +1,20 @@
 #pragma once
+
 #include <string>
+#include <curl/curl.h>
 
 class RESTAPIClient {
-private:
-    std::string endpoint;
-
 public:
-    RESTAPIClient(const std::string& endpoint)
-        : endpoint(endpoint) {}
+    RESTAPIClient(const std::string& serverUrl);
+    ~RESTAPIClient();
 
-    void post(const std::string& log);
+    bool sendLog(const std::string& logMessage);
+
+private:
+    std::string serverUrl;
+    CURL* curlHandle;
+
+    bool initCurl();
+    void cleanupCurl();
 };
+

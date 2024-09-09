@@ -4,11 +4,6 @@ project(logger_library)
 set(CMAKE_CXX_STANDARD 20)            # Enable c++20 standard
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Find boost lib
-#set(Boost_COMPONENTS system filesystem)
-#find_package(Boost REQUIRED COMPONENTS ${Boost_COMPONENTS})
-#include_directories(${Boost_INCLUDE_DIRS})
-
 # Enable testing
 enable_testing()
 
@@ -16,8 +11,14 @@ enable_testing()
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
-# Add includes
+# Add Curl package
+find_package(CURL REQUIRED)
+include_directories(${CURL_INCLUDE_DIRS})
+
+# Add directories
 include_directories(inc)
+include_directories(test)
+include_directories(test/mocks)
 
 set(SOURCE_FILES src/Logger.cpp
         src/LogFormatter.cpp
@@ -34,21 +35,25 @@ set(TEST_SOURCES
         test/LogLevel_test.cpp
         test/LogFormatter_test.cpp
         test/FileLogger_test.cpp
+        test/LogDestinationManager_test.cpp
+        test/mocks/MockLogDestination.hpp
 )
-
-# Add GoogleTest as a subdirectory
-#add_subdirectory(../gtest/googletest-release-1.11.0 gtest)
-# Link GoogleTest libraries
-link_libraries(gtest)
-link_libraries(gmock)
 
 # Add executable target with source files listed in SOURCE_FILES variable
 add_executable(logger_library_run ${SOURCE_FILES} main.cpp)
 
+# Link libcurl to the main executable
+target_link_libraries(logger_library_run ${CURL_LIBRARIES})
+
 # Add executable target for tests
 add_executable(logger_library_test ${SOURCE_FILES} ${TEST_SOURCES})
-#
+
 ## Link GoogleTest libraries to the test executable
-target_link_libraries(logger_library_test ${GTEST_LIBRARIES} pthread)
+target_link_libraries(logger_library_test
+        GTest::gtest
+        GTest::gmock
+        pthread
+        ${CURL_LIBRARIES}
+)
 
 add_test(NAME logger_library_test, COMMAND logger_library_test)

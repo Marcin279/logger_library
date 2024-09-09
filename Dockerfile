@@ -14,7 +14,8 @@ RUN apt-get update && \
     vim \
     gdb \
     rsync \
-    tar
+    tar \
+    libcurl4-openssl-dev
 
 # Install the newest GCC compiler
 RUN apt-get install -y software-properties-common && \
