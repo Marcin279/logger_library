@@ -1,21 +1,38 @@
 #include <iostream>
 #include <cstdlib>
-#include "NetworkLogger.hpp"
+
+#include <Logger.hpp>
 #include "LogLevel.hpp"
 
 
 int main() {
     std::cout << "Start" << std::endl;
 
-    // Testy NetworkLogger
-    NetworkLogger logger("http://log_server:8090");
+/*
+    Logger logger(LogLevel::INFO, LogDestinationOption::FILE, "logs.txt", "http://log_server:8090");
 
-    // Przykładowe logi do wysłania
-    logger.log(LogLevel::INFO, "This is an informational message.");
-    logger.log(LogLevel::ERROR, "This is an error message.");
-
+    logger.log(LogLevel::INFO, "This is a file-only informational message.");
+    logger.log(LogLevel::ERROR, "This is a file-only error message.");
 
     std::cout << "Done" << std::endl;
+*/
+
+    Logger logger0(LogLevel::INFO, LogDestinationOption::NETWORK, "logs.txt", "http://log_server:8090");
+
+    logger0.log(LogLevel::INFO, "This is a Network-only informational message.");
+    logger0.log(LogLevel::ERROR, "This is a Network-only error message.");
+
+    std::cout << "Done" << std::endl;
+
+
+    Logger logger(LogLevel::INFO, LogDestinationOption::BOTH, "logs.txt", "http://log_server:8090");
+    logger.setLogTimeFormat("%d-%m-%Y %H:%M:%S");
+    logger.log(LogLevel::INFO, "This is a Network and File informational message.");
+    logger.log(LogLevel::ERROR, "This is a Network and File error message.");
+
+    std::cout << "Done" << std::endl;
+
+
 
     return EXIT_SUCCESS;
 }

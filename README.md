@@ -20,3 +20,12 @@
 
 5. Enter to running container: </br>
 `docker exec -it <container_name/container_id> /bin/bash `
+
+6. Create network: </br>
+`docker network create log_network`
+
+7. Build image with python server: </br>
+`docker build -t log_server_image .`
+
+8. Run container with network option for python server: </br>
+`docker run -d --name log_server --network log_network -p 8090:8090 log_server_image`
