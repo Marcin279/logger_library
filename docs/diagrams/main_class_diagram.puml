@@ -40,6 +40,15 @@ class RESTAPIClient {
   + post(log: string): void
 }
 
+enum LogLevel {
+    DEBUG
+    INFO
+    WARNING
+    ERROR
+    FATAL
+    TRACE
+}
+
 Logger --> LogFormatter
 Logger --> LogDestinationManager
 LogDestinationManager --> LogDestination

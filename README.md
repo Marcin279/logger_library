@@ -8,6 +8,10 @@
 2. Run container: </br>
 `docker run --name logger_library_container --mount type=bind,source="$(pwd)",target=/logger_library -it logger_library_env:1`
 
+2.1. Run container with network option: </br>
+`docker run --name logger_library_container --network log_network --mount type=bind,source="$(pwd)",target=/logger_library -it logger_library_env:1`
+
+
 3. Running container: </br>
 `docker start -i logger_library_container`
 
