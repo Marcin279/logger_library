@@ -20,6 +20,8 @@ include_directories(inc)
 include_directories(test)
 include_directories(test/mocks)
 
+include_directories(examples/inc)
+
 set(SOURCE_FILES src/Logger.cpp
         src/LogFormatter.cpp
         src/LogLevel.cpp
@@ -27,6 +29,7 @@ set(SOURCE_FILES src/Logger.cpp
         src/FileLogger.cpp
         src/NetworkLogger.cpp
         src/RESTAPIClient.cpp
+        examples/src/Warehouse.cpp
 )
 
 set(TEST_SOURCES
