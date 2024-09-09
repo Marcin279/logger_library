@@ -20,6 +20,7 @@ public:
     void logToFileOnly(LogLevel logLevel, const std::string& message);
     void logToNetworkOnly(LogLevel logLevel, const std::string& message);
 
+// add protected methods here
     const std::vector<std::shared_ptr<LogDestination>>& getDestinations() const { return destinations; }
 
 
