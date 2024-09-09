@@ -28,7 +28,8 @@ public:
     ~Logger() = default;
 
 private:
-    LogLevel level;
+    std::string serverUrl;
+    std::string logFile;
     LogFormatter formatter;
     LogDestinationManager destinationManager;
 };

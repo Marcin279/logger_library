@@ -22,17 +22,12 @@ int main() {
     logger0.log(LogLevel::INFO, "This is a Network-only informational message.");
     logger0.log(LogLevel::ERROR, "This is a Network-only error message.");
 
-    std::cout << "Done" << std::endl;
-
-
     Logger logger(LogDestinationOption::BOTH, "logs.txt", "http://log_server:8090");
     logger.setLogTimeFormat("%d-%m-%Y %H:%M:%S");
     logger.log(LogLevel::INFO, "This is a Network and File informational message.");
     logger.log(LogLevel::ERROR, "This is a Network and File error message.");
 
     std::cout << "Done" << std::endl;
-
-
 
     return EXIT_SUCCESS;
 }
