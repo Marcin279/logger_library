@@ -1,12 +1,10 @@
 #include "Logger.hpp"
 
 
-Logger::Logger(LogLevel level,
-               LogDestinationOption destinationOption,
+Logger::Logger(LogDestinationOption destinationOption,
                const std::string& logFile,
-               const std::string& serverUrl) : level(level) {
+               const std::string& serverUrl) : formatter(LogFormatter()) {
 
-    formatter = LogFormatter();
     destinationManager = LogDestinationManager();
 
     if (destinationOption == LogDestinationOption::FILE || destinationOption == LogDestinationOption::BOTH) {

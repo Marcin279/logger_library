@@ -17,7 +17,7 @@ int main() {
     std::cout << "Done" << std::endl;
 */
 
-    Logger logger0(LogLevel::INFO, LogDestinationOption::NETWORK, "logs.txt", "http://log_server:8090");
+    Logger logger0(LogDestinationOption::NETWORK, "logs.txt", "http://log_server:8090");
 
     logger0.log(LogLevel::INFO, "This is a Network-only informational message.");
     logger0.log(LogLevel::ERROR, "This is a Network-only error message.");
@@ -25,7 +25,7 @@ int main() {
     std::cout << "Done" << std::endl;
 
 
-    Logger logger(LogLevel::INFO, LogDestinationOption::BOTH, "logs.txt", "http://log_server:8090");
+    Logger logger(LogDestinationOption::BOTH, "logs.txt", "http://log_server:8090");
     logger.setLogTimeFormat("%d-%m-%Y %H:%M:%S");
     logger.log(LogLevel::INFO, "This is a Network and File informational message.");
     logger.log(LogLevel::ERROR, "This is a Network and File error message.");

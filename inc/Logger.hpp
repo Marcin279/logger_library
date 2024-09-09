@@ -18,8 +18,7 @@ enum class LogDestinationOption {
 class Logger {
 public:
 
-    Logger(LogLevel level,
-           LogDestinationOption destinationOption = LogDestinationOption::BOTH,
+    Logger(LogDestinationOption destinationOption = LogDestinationOption::BOTH,
            const std::string& logFile = "logs.txt",
            const std::string& serverUrl = "http://log_server:8090");
 
