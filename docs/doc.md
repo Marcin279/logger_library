@@ -16,13 +16,17 @@ Biblioteka wspiera także rotację plików logów w przypadku, gdy ich rozmiar p
 ## Opis klas Logger library
 
 ### Logger
-Klasa zarządzająca całym procesem logowania. Umożliwia logowanie na różne destynacje, takie jak plik lub serwer sieciowy. Wykorzystuje `LogFormatter` do formatowania wiadomości i `LogDestinationManager` do zarządzania miejscami, do których trafiają logi.
+Klasa zarządzająca całym procesem logowania. Umożliwia logowanie na różne destynacje, takie jak plik lub serwer sieciowy.
+Wykorzystuje `LogFormatter` do formatowania wiadomości i `LogDestinationManager` do zarządzania miejscami, do których trafiają logi.
+Dodatkowo udostępnia metodę `setLogTimeFormat`, dzięki której możemy zmienić format czasu (zgodnie z funkcjonalnośćią metody std::put_time). 
 
 ### LogFormatter
-Klasa odpowiedzialna za formatowanie wiadomości logów. Działa na zasadzie statycznych metod, które formatują wiadomości zgodnie z określonym poziomem logowania oraz ustalonym formatem czasu.
+Klasa odpowiedzialna za formatowanie wiadomości logów. Działa na zasadzie statycznych metod, które formatują wiadomości 
+zgodnie z określonym poziomem logowania oraz ustalonym formatem czasu.
 
 ### LogDestinationManager
-Klasa zarządzająca miejscami, do których są wysyłane logi. Przechowuje różne destynacje (np. plik, sieć) i umożliwia logowanie do wszystkich destynacji jednocześnie lub do wybranej.
+Klasa zarządzająca miejscami, do których są wysyłane logi. Przechowuje różne destynacje (np. plik, sieć) i umożliwia logowanie
+do wszystkich destynacji jednocześnie lub do wybranej.
 
 ### LogDestination (Interfejs)
 Interfejs dla różnych typów destynacji logowania. Każda destynacja musi zaimplementować metodę `log`, która odbiera wiadomości logów w odpowiedni sposób.
@@ -46,10 +50,29 @@ Testy jednostkowe w Logger library mają na celu sprawdzenie poprawności dział
 - LogDestinationManager: Weryfikuje dodawanie i usuwanie destynacji logowania oraz prawidłowe przekazywanie logów do wybranych destynacji (np. tylko do pliku).
 - LogFormatter: Sprawdza, czy formatowanie logów z odpowiednim poziomem logowania i ustawionym formatem czasu działa zgodnie z oczekiwaniami.
 - LogLevel: Testy sprawdzają poprawność mapowania poziomów logowania na odpowiednie ciągi tekstowe (INFO, ERROR, itp.).
-- Logger: Weryfikuje poprawność logowania do pliku, sieci oraz obu destynacji jednocześnie.
+- Logger: Weryfikuje poprawność logowania do pliku, sieci lub obu destynacji jednocześnie.
 
 Testy są realizowane przy użyciu frameworków Google Test oraz Google Mock, aby zapewnić, że wszystkie funkcjonalności są dobrze izolowane i testowane niezależnie
 
+Testy aplikacji zostały wykonane na uproszczonym modelu magazynu. Testy zostały zrealizowane zgodnie z oczekiwaniami.
+Aplikacja magazynu udostępnia funkcjonalności:
+- addCategory
+- addProduct
+- listCategory
+- removeProduct
+- removeCategory
+
+W zależności od wybranej akcji wykorzystywane są inne funkcjonalności biblioteki logger_library
+
+
+## Serwer
+Początkowe założenia zakładały wykorzystanie serwera jenkins w celu przetestowania pisanej biblioteki, lecz z powodów
+złożonej konfiguracji tego serwera oraz trudnościach z jej automatyzacją zdecydowałem się napisać prosty serwer http w
+pythonie, który obsługuje motodę HTTP POST zaimplementowaną w klasie RESTAPIClient.
+Serwer jest uruchamiany w katalogu `log_server` z plikiem `log_server.py`. Serwer uruchamiany jest automatycznie podczas
+startu kontenera i domyślnie pracuje na portie 8090 (jeżeli port na lokalnym urządzeniu jest zajęty przez inną aplikację
+należy zmienić ustawienia domyślne portu w pliku `docker-compose.yaml`, `w samym skrypcie` oraz `w main.cpp` gdzie
+inicjalizujemy klasę Logger).
 
 ---
 
@@ -83,22 +106,17 @@ Testy są realizowane przy użyciu frameworków Google Test oraz Google Mock, ab
 1. Build image: </br>
    `docker build -t logger_library_env:1 .`
 
-
 2. *Optional* - Run container: </br>
    `docker run --name logger_library_container --mount type=bind,source="$(pwd)",target=/logger_library -it logger_library_env:1`
-
 
 3. Run container with network option: </br>
    `docker run --name logger_library_container --network log_network --mount type=bind,source="$(pwd)",target=/logger_library -it logger_library_env:1`
 
-
 4. *Optional* Running container: </br>
    `docker start -i logger_library_container`
 
-
 5. *Optional* Stopping container: </br>
    `docker stop logger_library_container`
-
 
 6. *Optional* Enter to running container: </br>
    `docker exec -it <container_name/container_id> /bin/bash `
