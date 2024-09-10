@@ -17,15 +17,12 @@ public:
     void removeDestination(DestinationType type);
 
     void logToAllDestinations(LogLevel logLevel, const std::string& message);
-    void logToFileOnly(LogLevel logLevel, const std::string& message);
-    void logToNetworkOnly(LogLevel logLevel, const std::string& message);
-
-// add protected methods here
-    const std::vector<std::shared_ptr<LogDestination>>& getDestinations() const { return destinations; }
-
 
     ~LogDestinationManager() = default;
 
+protected:
+    // For test only
+    const std::vector<std::shared_ptr<LogDestination>>& getDestinations() const { return destinations; }
 
 private:
     std::vector<std::shared_ptr<LogDestination>> destinations;

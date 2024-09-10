@@ -15,7 +15,8 @@ RUN apt-get update && \
     gdb \
     rsync \
     tar \
-    libcurl4-openssl-dev
+    libcurl4-openssl-dev \
+    dos2unix
 
 # Install the newest GCC compiler
 RUN apt-get install -y software-properties-common && \
@@ -41,6 +42,11 @@ ENV GTEST_ROOT=/gtest/googletest-release-1.11.0
 
 # Copy your C++ project files
 COPY . /logger_library
+
+# Convert scripts Windows to Unix format
+RUN dos2unix /logger_library/run_exec.sh && \
+    dos2unix /logger_library/clear.sh && \
+    dos2unix /logger_library/run_test.sh
 
 # Set the working directory
 WORKDIR /logger_library

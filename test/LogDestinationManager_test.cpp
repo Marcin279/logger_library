@@ -8,9 +8,14 @@ using ::testing::Eq;
 using ::testing::Return;
 using ::testing::Exactly;
 
-class LogDestinationManagerTest : public ::testing::Test {
+class TestableLogDestinationManager : public LogDestinationManager {
+public:
+    using LogDestinationManager::getDestinations;
+};
+
+class LogDestinationManagerTest : public ::testing::Test, LogDestinationManager {
 protected:
-    LogDestinationManager manager;
+    TestableLogDestinationManager manager;
     std::shared_ptr<MockLogDestination> fileDestination;
 
     void SetUp() override {
@@ -31,15 +36,6 @@ TEST_F(LogDestinationManagerTest, LogToAllDestinations_FileOnly) {
         .Times(Exactly(1));
 
     manager.logToAllDestinations(LogLevel::INFO, "Test message");
-}
-
-TEST_F(LogDestinationManagerTest, LogToFileOnly) {
-    manager.addDestination(fileDestination, DestinationType::FILE);
-
-    EXPECT_CALL(*fileDestination, log(LogLevel::INFO, "Test message"))
-        .Times(Exactly(1));
-
-    manager.logToFileOnly(LogLevel::INFO, "Test message");
 }
 
 TEST_F(LogDestinationManagerTest, RemoveFileDestination) {

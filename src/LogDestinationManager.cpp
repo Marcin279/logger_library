@@ -27,20 +27,3 @@ void LogDestinationManager::removeDestination(DestinationType type) {
 
     destinations.erase(it, destinations.end());
 }
-
-
-void LogDestinationManager::logToFileOnly(LogLevel logLevel, const std::string& message) {
-    for (size_t i = 0; i < destinations.size(); ++i) {
-        if (destinationTypes[i] == DestinationType::FILE) {
-            destinations[i]->log(logLevel, message);
-        }
-    }
-}
-
-void LogDestinationManager::logToNetworkOnly(LogLevel logLevel, const std::string& message) {
-    for (size_t i = 0; i < destinations.size(); ++i) {
-        if (destinationTypes[i] == DestinationType::NETWORK) {
-            destinations[i]->log(logLevel, message);
-        }
-    }
-}

@@ -27,7 +27,12 @@ public:
 
     ~Logger() = default;
 
+
 private:
+    void initializeDestinations();
+    void addFileDestination();
+    void addNetworkDestination();
+
     std::string serverUrl;
     std::string logFile;
     LogDestinationOption destinationOption;
