@@ -1,0 +1,29 @@
+@startuml
+actor Client as C
+
+C -> Logger : log(LogLevel, message)
+
+alt File logging enabled
+    Logger -> LogFormatter : format(logLevel, message)
+    LogFormatter --> Logger : formattedMessage
+
+    Logger -> LogDestinationManager : logToAllDestinations(logLevel, formattedMessage)
+
+    LogDestinationManager -> FileLogger : log(logLevel, formattedMessage)
+    FileLogger --> LogDestinationManager : log saved to file
+end
+
+alt Network logging enabled
+    Logger -> LogFormatter : format(logLevel, message)
+    LogFormatter --> Logger : formattedMessage
+
+    Logger -> LogDestinationManager : logToAllDestinations(logLevel, formattedMessage)
+
+    LogDestinationManager -> NetworkLogger : log(logLevel, formattedMessage)
+    NetworkLogger -> RESTAPIClient : sendLog(formattedMessage)
+    RESTAPIClient --> NetworkLogger : log sent to server
+    NetworkLogger --> LogDestinationManager : log sent to network
+end
+
+C --> Logger : Logging complete
+@enduml

@@ -1,52 +1,84 @@
 @startuml
+
+enum LogLevel {
+  DEBUG
+  INFO
+  WARNING
+  ERROR
+  FATAL
+  TRACE
+  UNKNOWN = 99
+}
+
+enum DestinationType {
+  FILE
+  NETWORK
+}
+
+enum LogDestinationOption {
+  FILE
+  NETWORK
+  BOTH
+}
+
 class Logger {
-  - level: LogLevel
-  - formatter: LogFormatter
-  - destinationManager: LogDestinationManager
-  + log(level: LogLevel, message: string): void
+  - std::string logFile
+  - std::string serverUrl
+  - LogDestinationOption destinationOption
+  - LogFormatter formatter
+  - LogDestinationManager destinationManager
+
+  + Logger(const std::string&, const std::string&, LogDestinationOption)
+  + void log(LogLevel, const std::string&)
+  + void setLogTimeFormat(const std::string&)
+  + ~Logger()
 }
 
 class LogFormatter {
-  + format(level: LogLevel, moduleName: string, message: string): string
-}
+  - static std::string timeFormat
 
-interface LogDestination {
-  + log(log: string): void
+  + static std::string format(LogLevel, const std::string&)
+  + static void setTimeFormat(const std::string&)
 }
 
 class LogDestinationManager {
-  - destinations: List<LogDestination>
-  + logToFile(log: string): void
-  + logToNetwork(log: string): void
-  + addDestination(destination: LogDestination): void
-  + logToAllDestinations(log: string): void
+  - std::vector<std::shared_ptr<LogDestination>> destinations
+  - std::vector<DestinationType> destinationTypes
+
+  + void addDestination(std::shared_ptr<LogDestination>, DestinationType)
+  + void removeDestination(DestinationType)
+  + void logToAllDestinations(LogLevel, const std::string&)
+  + void logToFileOnly(LogLevel, const std::string&)
+  + void logToNetworkOnly(LogLevel, const std::string&)
+}
+
+interface LogDestination {
+  + void log(LogLevel, const std::string&)
 }
 
 class FileLogger {
-  - fileName: string
-  - maxSize: int
-  + log(log: string): void
-  + rotateFiles(): void
+  - std::string filename
+  - int maxSize
+
+  + FileLogger(const std::string&)
+  + void log(LogLevel, const std::string&)
+  + void rotateFiles()
 }
 
 class NetworkLogger {
-  - endpoint: string
-  - apiClient: RESTAPIClient
-  + log(log: string): void
+  - std::string serverUrl
+  - std::shared_ptr<RESTAPIClient> apiClient
+
+  + NetworkLogger(const std::string&)
+  + void log(LogLevel, const std::string&)
 }
 
 class RESTAPIClient {
-  - endpoint: string
-  + post(log: string): void
-}
+  - std::string serverUrl
+  - CURL* curlHandle
 
-enum LogLevel {
-    DEBUG
-    INFO
-    WARNING
-    ERROR
-    FATAL
-    TRACE
+  + RESTAPIClient(const std::string&)
+  + bool sendLog(const std::string&)
 }
 
 Logger --> LogFormatter

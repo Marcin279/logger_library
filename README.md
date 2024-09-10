@@ -9,12 +9,11 @@
 `docker-compose up`
 
 2. Enter to running container: </br>
-- `docker ps`
-a. Logger library: </br>
-`docker exec -it logger_library-logger_library-1 /bin/bash`
-
-b. Python server: </br>
-`docker exec -it logger_library-log_server /bin/bash`
+ 2.1 `docker ps`  </br>
+ 2.2 Logger library: </br>
+ `docker exec -it logger_library-logger_library-1 /bin/bash` </br>
+ 2.3 Python server: </br>
+ `docker exec -it logger_library-log_server /bin/bash` </br>
 
 
 1. Rebuild container after changes in docker-compose file: </br>
@@ -30,17 +29,22 @@ b. Python server: </br>
 1. Build image: </br>
 `docker build -t logger_library_env:1 .`
 
+
 2. *Optional* - Run container: </br>
 `docker run --name logger_library_container --mount type=bind,source="$(pwd)",target=/logger_library -it logger_library_env:1`
+
 
 3. Run container with network option: </br>
 `docker run --name logger_library_container --network log_network --mount type=bind,source="$(pwd)",target=/logger_library -it logger_library_env:1`
 
+
 4. *Optional* Running container: </br>
 `docker start -i logger_library_container`
 
+
 5. *Optional* Stopping container: </br>
 `docker stop logger_library_container`
+
 
 6. *Optional* Enter to running container: </br>
 `docker exec -it <container_name/container_id> /bin/bash `
@@ -51,8 +55,10 @@ b. Python server: </br>
 Go to log_server directory and then type: </br>
 `docker build -t log_server_image .`
 
+
 2. Run container with network option for python server: </br>
 `docker run -d --name log_server --network log_network -p 8090:8090 log_server_image`
+
 
 3. Enter to running container: </br>
 `docker exec -it log_server /bin/bash `
