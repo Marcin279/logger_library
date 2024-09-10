@@ -1,5 +1,7 @@
 # Logger library documentation
 
+Link do repozytorium: https://github.com/Marcin279/logger_library
+
 ## Opis glownych funkcjonalnosci logger_library wraz z diagramem sekwencji.
 Biblioteka Logger library służy do zarządzania procesem logowania wiadomości w aplikacjach. Umożliwia logowanie do różnych destynacji,
 takich jak plik lub serwer sieciowy, za pomocą klas takich jak FileLogger i NetworkLogger. Obsługuje różne poziomy logowania (LogLevel),
